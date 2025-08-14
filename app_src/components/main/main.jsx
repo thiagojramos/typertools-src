@@ -49,8 +49,8 @@ const ResizeableCont = React.memo(function ResizeableCont() {
     const setBottomSize = height => {
         const maxBottomHeight = appHeight - topHeight - minMiddleHeight;
         bottomHeight = height || readStorage('bottomHeight') || minBottomHeight;
-        if (height < minBottomHeight) bottomHeight = minBottomHeight;
-        if (height > maxBottomHeight) bottomHeight = maxBottomHeight;
+        if (bottomHeight < minBottomHeight) bottomHeight = minBottomHeight;
+        if (bottomHeight > maxBottomHeight) bottomHeight = maxBottomHeight;
         bottomBlock.current.style.height = bottomHeight + 'px';
         resizeTextArea();
     };
