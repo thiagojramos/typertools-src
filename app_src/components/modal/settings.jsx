@@ -13,6 +13,7 @@ const SettingsModal = React.memo(function SettingsModal() {
     const [pastePointText, setPastePointText] = React.useState(context.state.pastePointText ? '1' : '');
     const [ignoreLinePrefixes, setIgnoreLinePrefixes] = React.useState(context.state.ignoreLinePrefixes.join(' '));
     const [defaultStyleId, setDefaultStyleId] = React.useState(context.state.defaultStyleId || '');
+    const [compactUI, setCompactUI] = React.useState(!!context.state.compactUI);
     const [edited, setEdited] = React.useState(false);
 
     const close = () => {
@@ -34,6 +35,11 @@ const SettingsModal = React.memo(function SettingsModal() {
         setEdited(true);
     };
 
+    const changeCompactUI = e => {
+        setCompactUI(e.target.checked);
+        setEdited(true);
+    };
+
     const save = e => {
         e.preventDefault();
         if (pastePointText !== context.state.pastePointText) {
@@ -52,6 +58,12 @@ const SettingsModal = React.memo(function SettingsModal() {
             context.dispatch({
                 type: 'setDefaultStyleId',
                 id: defaultStyleId
+            });
+        }
+        if (compactUI !== context.state.compactUI) {
+            context.dispatch({
+                type: 'setCompactUI',
+                enabled: !!compactUI
             });
         }
         context.dispatch({type: 'setModal'});
@@ -131,6 +143,17 @@ const SettingsModal = React.memo(function SettingsModal() {
                             </div>
                             <div className="field-descr">
                                 {locale.settingsLinePrefixesDescr}
+                            </div>
+                        </div>
+                        <div className="field hostBrdTopContrast">
+                            <div className="field-label">
+                                Modo compacto (painel mais estreito)
+                            </div>
+                            <div className="field-input">
+                                <label className="topcoat-textarea" style={{display:'inline-flex',alignItems:'center',gap:6,padding:'4px 8px'}}>
+                                    <input type="checkbox" checked={compactUI} onChange={changeCompactUI} />
+                                    <span>Ocultar textos dos botões grandes e usar layout mais compacto</span>
+                                </label>
                             </div>
                         </div>
                         <div className="field hostBrdTopContrast">

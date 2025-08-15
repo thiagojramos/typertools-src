@@ -1,15 +1,18 @@
 .preview-block {
     box-sizing: border-box;
-    padding: 10px 10px 0;
-}
-.preview-top {
-    margin-bottom: 10px;
     justify-content: space-between;
     align-items: center;
     display: flex;
+    flex-wrap: wrap; /* allow wrapping on narrow widths */
+    margin-bottom: 10px;
+        margin-right: 10px;
+        flex: 1 1 140px; /* grow but allow shrink down to ~140px */
+        min-width: 0; /* allow content to truncate */
+        width: auto;
     .preview-top_big-btn {
         margin-right: 10px;
-        flex-grow: 2;
+        display: flex;
+        flex: 0 0 auto;
         width: 50%;
     }
     .preview-top_change-size-cont {
@@ -35,10 +38,10 @@
 }
 .preview-nav {
     flex: 0 0 auto;
-    width: 40px;
+    width: 34px; /* slightly narrower to fit smaller panel */
     & > BUTTON {
-        height: 34px;
-        width: 30px;
+        height: 32px;
+        width: 28px;
     }
     & > BUTTON + BUTTON {
         margin-top: 4px;
@@ -87,7 +90,7 @@
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 82px;
+    max-width: 64px; /* free up space when narrow */
 }
 .preview-line-info-color {
     box-shadow: 0 0 4px 1px rgba(#000, .4);
@@ -139,4 +142,48 @@
     font-size: 14px;
     overflow: auto;
     flex-grow: 2;
+}
+
+/* Compact tweaks when the panel gets very narrow */
+@media screen and (max-width: 360px) {
+    .preview-top {
+        .preview-top_big-btn {
+            flex: 1 1 120px;
+        }
+        .btn-label {
+            display: none; /* hide long text labels to save space */
+        }
+    }
+    .preview-nav {
+        width: 30px;
+        & > BUTTON {
+            width: 26px;
+            height: 28px;
+        }
+    }
+    .preview-line-style-name {
+        max-width: 48px;
+    }
+    .preview-line-scale INPUT {
+        width: 24px;
+        font-size: 11px;
+    }
+}
+
+/* Explicit Compact Mode toggles tighter layout regardless of width */
+.app-body.m-compact {
+    .preview-top {
+        .preview-top_big-btn {
+            flex: 1 1 120px;
+        }
+        .btn-label {
+            display: none;
+        }
+    }
+    .preview-nav {
+        width: 30px;
+        & > BUTTON { width: 26px; height: 28px; }
+    }
+    .preview-line-style-name { max-width: 48px; }
+    .preview-line-scale INPUT { width: 24px; font-size: 11px; }
 }

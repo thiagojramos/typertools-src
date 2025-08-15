@@ -77,7 +77,8 @@ const devConfig = {
                     }, {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: true
+                            sourceMap: true,
+                            sassOptions: { quietDeps: true }
                         }
                     }
                 ]
@@ -136,13 +137,16 @@ const prodConfig = {
                             postcssOptions: {
                                 plugins: [
                                     postcssPresetEnv(),
-                                    postcssCssnano(),
-                                    autoprefixer()
+                                    autoprefixer(),
+                                    postcssCssnano()
                                 ]
                             }
                         }
                     }, {
-                        loader: 'sass-loader'
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: { quietDeps: true }
+                        }
                     }
                 ]
             }, {

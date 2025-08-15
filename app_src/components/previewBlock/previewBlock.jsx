@@ -65,10 +65,10 @@ const PreviewBlock = React.memo(function PreviewBlock() {
         <React.Fragment>
             <div className="preview-top">
                 <button className="preview-top_big-btn topcoat-button--large--cta" title={locale.createLayerDescr} onClick={createLayer}>
-                    <AiOutlineBorderInner size={18} /> {locale.createLayer}
+                    <AiOutlineBorderInner size={18} /> <span className="btn-label">{locale.createLayer}</span>
                 </button>
                 <button className="preview-top_big-btn topcoat-button--large" title={locale.alignLayerDescr} onClick={() => alignTextLayerToSelection()}>
-                    <MdCenterFocusWeak size={18} /> {locale.alignLayer}
+                    <MdCenterFocusWeak size={18} /> <span className="btn-label">{locale.alignLayer}</span>
                 </button>
                 <div className="preview-top_change-size-cont">
                     <button className="topcoat-icon-button--large" title={locale.layerTextSizeMinus} onClick={() => changeActiveLayerTextSize(-1)}>

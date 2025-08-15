@@ -175,3 +175,35 @@
         color: #777;
     }
 }
+
+/* Narrow screens: shrink side gutters to free up content width */
+@media screen and (max-width: 360px) {
+    .text-lines {
+        &:before { width: 36px; }
+        &:after { width: 12px; }
+    }
+    .text-area {
+        margin-left: 36px;
+        margin-right: 12px;
+    }
+    .text-message {
+        left: 36px;
+        right: 12px;
+    }
+}
+
+/* Explicit Compact Mode applies the same tighter gutters regardless of width */
+.app-body.m-compact {
+    .text-lines {
+        &:before { width: 36px; }
+        &:after { width: 12px; }
+    }
+    .text-area {
+        margin-left: 36px;
+        margin-right: 12px;
+    }
+    .text-message {
+        left: 36px;
+        right: 12px;
+    }
+}

@@ -1,6 +1,7 @@
 import './main.scss';
 
 import React from 'react';
+import {useContext} from '../../context';
 import {readStorage, writeToStorage, resizeTextArea} from '../../utils';
 import Modal from '../modal/modal';
 import TextBlock from '../textBlock/textBlock';
@@ -14,6 +15,7 @@ const minMiddleHeight = 160;
 const minBottomHeight = 260;
 
 const ResizeableCont = React.memo(function ResizeableCont() {
+    const context = useContext();
     const appBlock = React.useRef();
     const bottomBlock = React.useRef();
 
@@ -67,7 +69,7 @@ const ResizeableCont = React.memo(function ResizeableCont() {
     }, []);
 
     return (
-        <div className="app-body" ref={appBlock} onMouseMove={moveBottomResize} onMouseLeave={stopBottomResize} onMouseUp={stopBottomResize}>
+        <div className={"app-body" + (context.state.compactUI ? " m-compact" : "")} ref={appBlock} onMouseMove={moveBottomResize} onMouseLeave={stopBottomResize} onMouseUp={stopBottomResize}>
             <Modal />
             <div className="top-block preview-block" style={{height: topHeight}}>
                 <PreviewBlock />
