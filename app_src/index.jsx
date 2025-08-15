@@ -1,4 +1,6 @@
-import 'babel-polyfill';
+// Polyfills modernos (substitui babel-polyfill)
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 import './index.scss';
 import './lib/CSInterface';

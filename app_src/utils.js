@@ -2,8 +2,13 @@ import './lib/CSInterface';
 
 
 const csInterface = new window.CSInterface();
-const path = csInterface.getSystemPath(window.SystemPath.EXTENSION);
-const storagePath = path + '/storage';
+const extensionPath = csInterface.getSystemPath(window.SystemPath.EXTENSION);
+// Novo local preferido para armazenamento por usuário (evita permissões somente leitura)
+const userDataBase = csInterface.getSystemPath(window.SystemPath.USER_DATA);
+const storageDirUser = userDataBase + '/typertools';
+const storageFileUser = storageDirUser + '/storage.json';
+// Caminho antigo (fallback para compatibilidade)
+const storageFileLegacy = extensionPath + '/storage';
 
 
 const locale = csInterface.initResourceBundle();
@@ -11,28 +16,44 @@ const locale = csInterface.initResourceBundle();
 const openUrl = window.cep.util.openURLInDefaultBrowser;
 
 const readStorage = key => {
-    const result = window.cep.fs.readFile(storagePath);
+    // Tenta no local novo (USER_DATA)
+    let result = window.cep.fs.readFile(storageFileUser);
     if (result.err) {
-        return key ? void 0 : {
-            error: result.err,
-            data: {}
-        };
-    } else {
+        // Fallback: tenta no local legado dentro da pasta da extensão
+        result = window.cep.fs.readFile(storageFileLegacy);
+    }
+    if (result.err) {
+        return key ? void 0 : { error: result.err, data: {} };
+    }
+    try {
         const data = JSON.parse(result.data || '{}') || {};
-        return key ? data[key] : {data};
+        return key ? data[key] : { data };
+    } catch (e) {
+        return key ? void 0 : { error: 'parse', data: {} };
     }
 };
 
 const writeToStorage = (data, rewrite) => {
-    const storage = readStorage();
-    if (storage.error || rewrite) {
-        const result = window.cep.fs.writeFile(storagePath, JSON.stringify(data));
-        return !result.err;
-    } else {
-        data = Object.assign({}, storage.data, data);
-        const result = window.cep.fs.writeFile(storagePath, JSON.stringify(data));
-        return !result.err;
+    // Garante diretório do usuário
+    try {
+        const statDir = window.cep.fs.stat(storageDirUser);
+        if (statDir.err) {
+            window.cep.fs.makedir(storageDirUser);
+        }
+    } catch (e) {
+        // ignora
     }
+
+    const storage = readStorage();
+    let payload;
+    if (storage.error || rewrite) {
+        payload = data;
+    } else {
+        payload = Object.assign({}, storage.data, data);
+    }
+
+    const result = window.cep.fs.writeFile(storageFileUser, JSON.stringify(payload));
+    return !result.err;
 };
 
 const nativeAlert = (text, title, isError) => {
