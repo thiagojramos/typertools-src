@@ -13,11 +13,6 @@ Extensão CEP (HTML/JS) para Photoshop com UI em React, build em Webpack e scrip
 
 A saída é gerada em `./app` (index.html, index.js, host.jsx, CSS, assets).
 
-## Compatibilidade de runtime
-
-- CEP (Extensions Legacy): Photoshop 2025 usa CEP 12, cujo CEF é baseado no Chromium 99 (CEF3 r4844). Este projeto visa esse alvo via Browserslist (`Chrome 99`).
-- UXP (plugins modernos): não usa CEF; o WebView é o Microsoft Edge WebView2 (versão varia conforme seu Windows). Este projeto é CEP, não UXP.
-
 ## Instalação (CEP)
 
 1. Ative o modo de desenvolvedor CEP.
