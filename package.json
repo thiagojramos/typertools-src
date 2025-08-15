@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "app/index.js",
   "browserslist": [
-    "Chrome 77"
+    "Chrome 99"
   ],
   "scripts": {
     "build": "rimraf app && webpack --mode=production",
